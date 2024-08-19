@@ -9,10 +9,12 @@ function Employee() {
     const [employee, setEmployee] = useState([])
 
     function getEmployee(){
-        Axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Employees/${id}`).then((response) => {
-            setEmployee(response.data);
-            // console.log(response.data);
-        })
+            Axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Employees/${id}`).then((response) => {
+                setEmployee(response.data);
+                // console.log(response.data);
+            }).catch((error) => {
+                console.log(error.response.status)
+            })
     }
 
     useEffect(() => {

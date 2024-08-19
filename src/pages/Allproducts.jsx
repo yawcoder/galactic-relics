@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 function Allproducts() {
     const [products, setProducts] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
-    const [paginatedProducts, setPaginatedItems] = useState([]);
 
     function getProducts() {
         Axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Products?page=${pageNumber}&pageSize=6`)
@@ -30,7 +29,7 @@ function Allproducts() {
     return (
         <div>
             {products.map((product) => (
-                <Link to={`/product/${product.id}`} key={product.id}>{product.name}</Link> // Ensure to use a unique key
+                <Link to={`/product/${product.id}`} key={product.id}>{product.name}</Link>
             ))}
             <div>
                 <button onClick={prevPage}>Prev</button>
