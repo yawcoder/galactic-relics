@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,11 +7,13 @@ function Allproducts() {
     const [pageNumber, setPageNumber] = useState(1);
 
     function getProducts() {
-        Axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Products?page=${pageNumber}&pageSize=6`)
+        axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Products?page=${pageNumber}&pageSize=6`)
             .then((response) => {
                 setProducts(response.data.data);
                 // console.log(response.data.data)
-            });
+            }).catch((error) => {
+                console.log(error.response.status)
+            })
     }
 
     useEffect(() => {

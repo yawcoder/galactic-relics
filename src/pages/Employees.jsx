@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ function Employees() {
     const [employees, setEmployees] = useState([])
 
     function getEmployees(){
-        Axios.get("https://bcgalacticgadgetsapi-production.up.railway.app/api/Employees?page=1&pageSize=100").then((response) => {
+        axios.get("https://bcgalacticgadgetsapi-production.up.railway.app/api/Employees?page=1&pageSize=100").then((response) => {
             setEmployees(response.data.data);
             // console.log(response.data.data);
         }).catch(function(error){

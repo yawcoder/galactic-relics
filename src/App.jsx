@@ -19,7 +19,7 @@ function App() {
         <Route path='/employees' element={<Employees />}/>
         <Route path='/employee/:id' element={<Employee />} />
         <Route path='/orders' element={<Orders />} />
-        <Route path='/order/:1d' element={<Order />} />
+        <Route path='/order/:id' element={<Order />} />
       </Routes>
     </Router>
   )

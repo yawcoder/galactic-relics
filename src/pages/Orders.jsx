@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
 
     function getOrders(){
-        Axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders?page=${pageNumber}&pageSize=10`).then((response) => {
-            // console.log(response.data.data);
+        axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders?page=${pageNumber}&pageSize=10`).then((response) => {
+            console.log(response.data.data);
             setOrders(response.data.data);
+        }).catch((error) => {
+            console.log(error.response.status)
         })
     }
 
@@ -28,8 +31,14 @@ function Orders() {
   return (
     <div>
         <div>
+            
             {orders.map((order) => {
-                return <p key={order.id}>{order.id}</p>
+                return (
+                    <div key={order.id}>
+                        <p><span>{order.customer.firstName}</span> <span>{order.customer.lastName}</span></p>
+                        <Link to={`/order/${order.id}`}><button>View Invoice</button></Link>
+                    </div>
+                )
             })}
         </div>
         <button onClick={prevPage}>Prev</button>
