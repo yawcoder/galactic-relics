@@ -10,8 +10,8 @@ function Order() {
 
   function getOrder(){
     axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders/${id}`).then((response) => {
-      // console.log(response.data);
-      setOrder(response.data)
+      console.log(response.data);
+      setOrder(response.data);
     }).catch((error) => {
       console.log(error.response.status);
     })
@@ -23,7 +23,7 @@ function Order() {
 
 
   return (
-    <div>Order</div>
+    <div className="">Order</div>
   )
 }
 

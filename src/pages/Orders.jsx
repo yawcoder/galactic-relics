@@ -9,11 +9,20 @@ function Orders() {
     const [selectedEmployee, setSelectedEmployee] = useState("All Orders");
 
     function getOrders(){
-        axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders?page=${pageNumber}&pageSize=10`).then((response) => {
+        let url = `https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders?`;
+
+        if(selectedEmployee !== "All Orders") {
+            url += `employeeId=${selectedEmployee}&page=1&pageSize=10`;
+        } else {
+            url += `page=${pageNumber}&pageSize=10`;
+        }
+        // console.log(url)
+
+        axios.get(url).then((response) => {
             // console.log(response.data.data);
             setOrders(response.data.data);
         }).catch((error) => {
-            console.log(error.response.status)
+            console.log(error.response.status);
         })
     }
 
@@ -22,38 +31,35 @@ function Orders() {
             setEmployees(response.data.data);
             // console.log(response.data.data);
         }).catch(function(error){
-          console.log(error.response.status)
+          console.log(error.response.status);
         })
     }
 
     function handleChange(event){
         setSelectedEmployee(event.target.value);
+        setPageNumber(1);
     }
 
-    useEffect(() => {
-        getOrders();
-        getEmployees();
-    }, [pageNumber]);
-
-    useEffect(() => {
-        if(selectedEmployee !== "All Orders"){
-            axios.get(`https://bcgalacticgadgetsapi-production.up.railway.app/api/Orders?employeeId=${selectedEmployee}&page=1&pageSize=100`).then((response) => {
-                // console.log(response.data.data);
-                setOrders(response.data.data);
-            }).catch((error) => {
-                console.log(error.response.data);
-            })
-        }
-    }, [selectedEmployee])
-
+    
     function nextPage(){
-        pageNumber > 9 ? setPageNumber(1) : setPageNumber(pageNumber + 1);
+        if(selectedEmployee !== "All Orders"){
+            setPageNumber(1);
+        } else{
+            pageNumber > 9 ? setPageNumber(1) : setPageNumber(pageNumber + 1);
+        }
     }
 
     function prevPage(){
+        if(selectedEmployee !== "All Orders"){
+            setPageNumber(1)
+        }
         pageNumber < 2 ? setPageNumber(10) : setPageNumber(pageNumber - 1);
     }
-
+    
+    useEffect(() => {
+        getOrders();
+        getEmployees();
+    }, [pageNumber, selectedEmployee]);
 
   return (
     <div>
@@ -68,7 +74,7 @@ function Orders() {
                 return (
                     <div key={order.id}>
                         <p><span>{order.customer.firstName}</span> <span>{order.customer.lastName}</span></p>
-                        <Link to={`/order/${order.id}`}><button>View Invoice</button></Link>
+                        <Link to={`/order/${order.id}`} className="bg-gray-500"><button>View Invoice</button></Link>
                     </div>
                 )
             })}
