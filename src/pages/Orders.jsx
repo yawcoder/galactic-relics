@@ -79,10 +79,10 @@ function Orders() {
                     </select>
                 </div>
             </div>
-            <div className="mt-5 flex flex-col">
+            <div className="mt-5 flex flex-col md:flex-row md:w-11/12 md:mx-auto">
                 {
                     selectedEmployee === "All Orders" ?
-                        <div className="w-5/6 border-[1px] mx-auto h-72 rounded-lg border-gray-400 p-4">
+                        <div className="w-5/6 border-[1px] mx-auto h-72 rounded-lg border-gray-400 p-4 md:w-1/5 md:mx-5 my-5">
                             <ImageFiller width={80} height={80} className="mx-auto rounded-full" />
                             <p className="uppercase">All Orders</p>
                             <p>Total Orders: {orders.length}</p>
@@ -96,7 +96,7 @@ function Orders() {
                         employees.filter((employee) => {
                             return employee.id == selectedEmployee;
                         }).map((employee) => {
-                            return <div key={employee.id} className="w-5/6 border-[1px] mx-auto h-72 rounded-lg border-gray-400 p-4">
+                            return <div key={employee.id} className="w-5/6 border-[1px] mx-auto h-72 rounded-lg border-gray-400 p-4 md:w-1/5 md:mx-5 md:my-5">
                                 <ImageFiller width={80} height={80} className="mx-auto rounded-full" />
                                 <p className="uppercase">{employee.firstName} {employee.lastName}</p>
                                 <p className="mt-3">{employee.emailAddress}</p>
@@ -109,20 +109,44 @@ function Orders() {
                             </div>
                         })
                 }
-                <div>
+                <div className="md:w-4/5">
                     {orders.map((order) => {
                         return (
-                            <div key={order.id}>
-                                <p><span>{order.customer.firstName}</span> <span>{order.customer.lastName}</span></p>
-                                <Link to={`/order/${order.id}`} className="bg-gray-500"><button>View Invoice</button></Link>
+                            <div key={order.id} className="w-5/6 text-lg border-[1px] mx-auto rounded-lg border-gray-400 mt-5 font-montserrat md:w-full">
+                                <p className="border-b-[1px] border-gray-400 px-4 py-3">Order #{order.id}</p>
+                                <div className="mx-5 mt-5 mb-5 pb-2">
+                                    <p className="text-2xl"><span>{order.customer.firstName}</span> <span>{order.customer.lastName}</span></p>
+                                    <p className="text-xl">{order.customer.emailAddress}</p>
+                                    <p>{order.customer.address}</p>
+                                    <p>{order.customer.address2}</p>
+                                    <p className="mb-5"><span>{order.customer.city}</span>, <span>{order.customer.state}</span> <span>{order.customer.zipCode}</span></p>
+                                    <Link to={`/order/${order.id}`} className="bg-gray-500 text-white px-4 py-3 text-xl rounded-lg"><button>View Invoice</button></Link>
+                                </div>
+                                <div className="border-t-[1px] border-gray-400 px-4 py-5">
+                                    <div>
+                                        {
+                                            employees.filter((employee) => {
+                                                return order.userId === employee.id
+                                            }).map((employee) => {
+                                                return (
+                                                    <div key={employee.id}>
+                                                        <span>Representaive: {employee.firstName} {employee.lastName}</span>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         )
                     })}
                 </div>
             </div>
-            <button onClick={prevPage}>Prev</button>
-            <span>{pageNumber}</span>
-            <button onClick={nextPage}>Next</button>
+            <div className="max-w-max mx-auto my-5">
+                <button onClick={prevPage} className="bg-gray-600 p-3 rounded-full text-white text-xl"><GoArrowLeft /></button>
+                <span className="mx-3">Page {pageNumber}</span>
+                <button onClick={nextPage} className="bg-gray-600 p-3 rounded-full text-white text-xl"><GoArrowRight /></button>
+            </div>
         </div>
     )
 }
